@@ -3,34 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/mac/code/larabbs/app/Providers/RouteServiceProvider.php</file>
-            <file>file:/Users/mac/code/larabbs/app/Providers/EventServiceProvider.php</file>
-            <file>file:/Users/mac/code/larabbs/config/captcha.php</file>
-            <file>file:/Users/mac/code/larabbs/resources/views/layouts/_footer.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/resources/sass/app.scss</file>
-            <file>file:/Users/mac/code/larabbs/package.json</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Controllers/PagesController.php</file>
+            <file>file:/Users/mac/code/larabbs/app/Http/Controllers/UsersController.php</file>
+            <file>file:/Users/mac/code/larabbs/resources/views/shared/_error.blade.php</file>
             <file>file:/Users/mac/code/larabbs/resources/views/layouts/_header.blade.php</file>
             <file>file:/Users/mac/code/larabbs/resources/views/layouts/app.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/.env</file>
-            <file>file:/Users/mac/code/larabbs/webpack.mix.js</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Controllers/Auth/RegisterController.php</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Middleware/EnsureEmailIsVerified.php</file>
-            <file>file:/Users/mac/code/larabbs/resources/views/auth/register.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/composer.json</file>
+            <file>file:/Users/mac/code/larabbs/app/Http/Requests/UserRequest.php</file>
             <file>file:/Users/mac/code/larabbs/resources/views/shared/_messages.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/.editorconfig</file>
             <file>file:/Users/mac/code/larabbs/routes/web.php</file>
-            <file>file:/Users/mac/code/larabbs/resources/views/auth/login.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Controllers/Auth/VerificationController.php</file>
-            <file>file:/Users/mac/code/larabbs/storage/logs/laravel.log</file>
-            <file>file:/Users/mac/code/larabbs/resources/js/app.js</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Kernel.php</file>
-            <file>file:/Users/mac/code/larabbs/app/Http/Controllers/Auth/LoginController.php</file>
+            <file>file:/Users/mac/code/larabbs/database/migrations/2020_05_12_104741_add_avatar_and_introduction_to_users_table.php</file>
+            <file>file:/Users/mac/code/larabbs/app/Providers/EventServiceProvider.php</file>
+            <file>file:/Users/mac/code/larabbs/resources/views/users/show.blade.php</file>
             <file>file:/Users/mac/code/larabbs/app/Models/User.php</file>
-            <file>file:/Users/mac/code/larabbs/resources/views/pages/root.blade.php</file>
-            <file>file:/Users/mac/code/larabbs/app/helpers.php</file>
-            <file>file:/Users/mac/code/larabbs/config/app.php</file>
+            <file>file:/Users/mac/code/larabbs/resources/views/users/edit.blade.php</file>
         </group>
     </open-files>
 </project-private>
