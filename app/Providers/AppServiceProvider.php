@@ -30,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         if (app()->isLocal()) {
             $this->app->register(\VIACreative\SudoSu\ServiceProvider::class);
         }
+        
+        \App\Models\Link::observe(\App\Observers\LinkObserver::class);
 
         //
     }

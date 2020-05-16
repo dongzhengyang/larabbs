@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Topic;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Link;
 
 class CategoriesController extends Controller
 {
@@ -20,8 +21,11 @@ class CategoriesController extends Controller
         // 活跃用户列表
         $user = new User();
         $active_users = $user->getActiveUsers();
+        
+        $link = new Link();
+         $links = $link->getAllCached();
         // 传参变量话题和分类到模板中
-        return view('topics.index', compact('topics', 'category','active_users'));
+        return view('topics.index', compact('topics', 'category','active_users','links'));
     }
     
 }
