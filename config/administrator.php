@@ -21,7 +21,7 @@ return array(
      *
      * @type string
      */
-    'title' => config('app.name'),
+    'title' => env('APP_NAME', 'LaravBBS'),
 
     /*
      * The path to your model config directory
@@ -139,5 +139,5 @@ return array(
      */
     'locales' => [],
 
-    'custom_routes_file' => app_path('Http/routes/administrator.php'),
+    //'custom_routes_file' => app_path('Http/routes/administrator.php'),
 );
