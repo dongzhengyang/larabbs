@@ -15,7 +15,7 @@ return [
     |
      */
     
-    'allowed_tlds' => ['dev', 'local','test','growso.cn'],
+    'allowed_tlds' => ['dev', 'local','test','cn'],
 
     /*
     |--------------------------------------------------------------------------
