@@ -12,6 +12,8 @@ use App\Handlers\ImageUploadHandler;
 use \App\Models\User;
 use App\Models\Link;
 
+use App\Models\UserData;
+use App\Jobs\UpdateMileageSort;
 
 class TopicsController extends Controller
 {
@@ -22,6 +24,17 @@ class TopicsController extends Controller
 
     public function index(Request $request, Topic $topic)
     {
+           $user = UserData::find(330616)->toArray();
+        print_r($user);
+        
+        echo "====";
+        dispatch(new UpdateMileageSort($user));
+//        // 推送任务到队列
+//        for($i=1;$i++;$i<100){
+//            
+//        }
+        
+        
             $topics = $topic->withOrder($request->order)
                     ->with('user', 'category')
                     ->paginate(20);

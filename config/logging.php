@@ -96,8 +96,22 @@ return [
             'handler' => NullHandler::class,
         ],
 
-        'emergency' => [
-            'path' => storage_path('logs/laravel.log'),
+        'calMileageErrorLogFile' => [
+            'driver' => 'single',
+            'formatter' => \Monolog\Formatter\LineFormatter::class,
+            'formatter_with' => [
+                "format" => "[%datetime%] %level_name%: %message% \n",
+            ],
+            'path' => storage_path('logs/mileage_error.log'),
+        ],
+
+        'calMileageInfoLogFile' => [
+            'driver' => 'single',
+            'formatter' => \Monolog\Formatter\LineFormatter::class,
+            'formatter_with' => [
+                "format" => "[%datetime%] %level_name%: %message% \n",
+            ],
+            'path' => storage_path('logs/mileage_info.log'),
         ],
     ],
 
