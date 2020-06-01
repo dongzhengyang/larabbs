@@ -24,11 +24,11 @@ class TopicsController extends Controller
 
     public function index(Request $request, Topic $topic)
     {
-           $user = UserData::find(330616)->toArray();
-        print_r($user);
-        
-        echo "====";
-        dispatch(new UpdateMileageSort($user));
+//           $user = UserData::find(330616)->toArray();
+//        print_r($user);
+//        
+//        echo "====";
+//        dispatch(new UpdateMileageSort($user));
 //        // 推送任务到队列
 //        for($i=1;$i++;$i<100){
 //            
