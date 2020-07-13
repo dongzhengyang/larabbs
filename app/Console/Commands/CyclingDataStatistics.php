@@ -64,8 +64,8 @@ class CyclingDataStatistics extends Command
         try {
             while (true) {
                 if ($iterator->valid()) {
-                    $document = ($iterator->current());
-                    if($this->str_compare($document->device_info['app_version'],'2.4.0')== '-1'){
+                    $document = ($iterator->current());;
+                    if($this->str_compare((string)$document->device_info->app_version,'2.4.0')== '-1'){
                         $iterator->next();
                         continue;
                     }
