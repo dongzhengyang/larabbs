@@ -150,11 +150,10 @@ class CyclingDataStatistics extends Command
         $accessKeySecret  = env('ALIYUN_ACCESS_KEY_SECRET');
         $endpoint  = env('ALIYUN_END_POINT');
         $bucket = env('ALIYUN_BUCKET');
-
         try {
             $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
             $object = "cyclingData/".$cyclingId;
-            $objectMeta = $ossClient->getObjectMeta($this->bucket, $object);
+            $objectMeta = $ossClient->getObjectMeta($bucket, $object);
             $size = $objectMeta['content-length'];
             $url = $objectMeta['info']['url'];
             //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
