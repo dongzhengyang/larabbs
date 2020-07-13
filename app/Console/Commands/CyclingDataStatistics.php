@@ -57,8 +57,7 @@ class CyclingDataStatistics extends Command
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $options = [
             'sort' => ['$natural' => -1],
-            'tailable' => true,
-            'awaitData' => true
+            'noCursorTimeout' => true
         ];
         $query = new Query(
             ['log_id' => ['$exists' => true]],
