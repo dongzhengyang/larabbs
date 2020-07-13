@@ -62,7 +62,7 @@ class CyclingDataStatistics extends Command
         $query = new Query(
   //          ['created_at' => ['$gt' => $datetime]],
             ['log_id' => ['$exists'=>true]],
-            ['tailable' => true, 'awaitData' => true,'noCursorTimeout'=>true]
+            ['noCursorTimeout'=>true]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
@@ -74,6 +74,10 @@ class CyclingDataStatistics extends Command
                     $document = ($iterator->current());
                     $this->info((string)$document->_id."==".$num);
                     if(!isset($document->device_info) || empty($document->device_info)){
+                        $iterator->next();
+                        continue;
+                    }
+                    if(!isset($document->device_info->app_version)){
                         $iterator->next();
                         continue;
                     }
