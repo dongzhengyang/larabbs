@@ -3,6 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Mongo\UserBehavior;
+use App\Models\Mongo\Cycling;
+use OSS\OssClient;
+use OSS\Core\OssException;
+
 
 class CyclingDataStatistics extends Command
 {
@@ -18,7 +23,7 @@ class CyclingDataStatistics extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '骑行数据汇总';
 
     /**
      * Create a new command instance.
@@ -37,6 +42,9 @@ class CyclingDataStatistics extends Command
      */
     public function handle()
     {
-        //
+        $count =  UserBehavior::where('created_at','>','1585670400')->count();
+        $data = UserBehavior::where('created_at','>','1585670400')->order('created_at',-1)->first();
+        dd($count,$data);
+
     }
 }
