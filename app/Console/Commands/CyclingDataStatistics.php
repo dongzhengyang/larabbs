@@ -11,6 +11,7 @@ use OSS\OssClient;
 use OSS\Core\OssException;
 use MongoDB\BSON\UTCDateTime;
 use App\Models\CyclingRecords;
+use Carbon\Carbon;
 
 
 class CyclingDataStatistics extends Command
@@ -46,7 +47,7 @@ class CyclingDataStatistics extends Command
      */
     public function handle()
     {
-        $datetime = (new UTCDateTime(1585670400*1000))->toDateTime();
+        $datetime = new UTCDateTime(1585670400*1000);
 
         $host = sprintf("mongodb://%s:%s@%s:%s/admin",
             env('MONGO_DB_USERNAME'),
@@ -59,8 +60,9 @@ class CyclingDataStatistics extends Command
 //            'sort' => ['$natural' => -1],
 //        ];
         $query = new Query(
-            ['created_at' => ['$gt' => $datetime]],
-            ['tailable' => true, 'awaitData' => true]
+  //          ['created_at' => ['$gt' => $datetime]],
+            ['log_id' => ['$exists'=>true]],
+            ['tailable' => true, 'awaitData' => true,'noCursorTimeout'=>true]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
