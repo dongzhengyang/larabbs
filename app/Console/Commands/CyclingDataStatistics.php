@@ -108,7 +108,7 @@ class CyclingDataStatistics extends Command
                 $iterator->next();
             }
 
-        }catch ($e){
+        }catch(\Exception $e){
             print $e->getMessage();
         }
 
