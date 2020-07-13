@@ -47,7 +47,7 @@ class CyclingDataStatistics extends Command
     {
         $datetime = (new UTCDateTime(1585670400*1000))->toDateTime();
 
-        $host = sprintf("mongodb://%s:%s@%s:%s/admin",
+        $host = sprintf("mongodb://%s:%s@%s:%s/ridelife",
             env('MONGO_DB_USERNAME'),
             rawurlencode(env('MONGO_DB_PASSWORD')),
             env('MONGO_DB_HOST', 'localhost'),
@@ -57,7 +57,7 @@ class CyclingDataStatistics extends Command
         $query = new Query(
             ['created_at' => ['$gt' => $datetime]]
         );
-        $cursor = $manager->executeQuery('oplog.rs', $query);
+        $cursor = $manager->executeQuery('user_behavior', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
 
