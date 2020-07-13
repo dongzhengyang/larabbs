@@ -146,7 +146,9 @@ class CyclingDataStatistics extends Command
             $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
             $object = "cyclingData/".$cyclingId;
             $objectMeta = $ossClient->getObjectMeta($this->bucket, $object);
-            retrun [$objectMeta['content-length'],$objectMeta['info']['url']];
+            $size = $objectMeta['content-length'];
+            $url = $objectMeta['info']['url'];
+            retrun array($size,$url);
             //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
         } catch (OssException $e) {
             print $e->getMessage();
