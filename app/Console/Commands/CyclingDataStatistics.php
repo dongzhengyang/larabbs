@@ -55,16 +55,25 @@ class CyclingDataStatistics extends Command
             env('MONGO_DB_PORT', '27017'));
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
+        $options = [
+            'sort' => ['$natural' => -1],
+        ];
         $query = new Query(
-            ['log_id' => ['$exists' => true]]
+            ['log_id' => ['$exists' => true]],
+            $options
         );
+        
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
             while (true) {
                 if ($iterator->valid()) {
-                    $document = ($iterator->current());;
+                    $document = ($iterator->current());
+                    if(!isset($document->device_info) || empty($document->device_info)){
+                        $iterator->next();
+                        continue;
+                    }
                     if($this->str_compare((string)$document->device_info->app_version,'2.4.0')== '-1'){
                         $iterator->next();
                         continue;
