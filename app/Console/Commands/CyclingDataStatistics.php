@@ -92,7 +92,6 @@ class CyclingDataStatistics extends Command
                     $cyclingdata = Cycling::where('log_id',$log_id)->first();
                     if(empty($cyclingdata)){
                         $iterator->next();
-                        $num ++;
                         continue;
                     }
 
@@ -111,7 +110,7 @@ class CyclingDataStatistics extends Command
                     $record['avg_speed'] = $cyclingdata->avgSpeed;
                     $record['avg_moving_speed'] = $cyclingdata->avgMovingSpeed;
                     $record['file_size'] = $file_size;
-                    $record['file_url'] =$file_url;
+                    $record['file_url'] = (string)$cyclingdata->_id;
 
                     CyclingRecords::create($record);
                     $num ++;
