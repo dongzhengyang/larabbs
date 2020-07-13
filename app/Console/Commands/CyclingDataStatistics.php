@@ -62,7 +62,7 @@ class CyclingDataStatistics extends Command
             ['log_id' => ['$exists' => true]],
             $options
         );
-        
+
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
@@ -82,7 +82,7 @@ class CyclingDataStatistics extends Command
                     $mongo_record_id = (string)$document->_id;
 
                     //TODO 判断是否已在mysql中
-                    $exist = CyclingRecords::where('mongo_record_id',$mongo_record_id).first();
+                    $exist = CyclingRecords::where('mongo_record_id',$mongo_record_id)->first();
                     if($exist){
                         $iterator->next();
                         continue;
