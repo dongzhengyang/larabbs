@@ -55,13 +55,12 @@ class CyclingDataStatistics extends Command
             env('MONGO_DB_PORT', '27017'));
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
-        $options = [
-            'sort' => ['$natural' => -1],
-            'noCursorTimeout' => true
-        ];
+//        $options = [
+//            'sort' => ['$natural' => -1],
+//        ];
         $query = new Query(
-            ['log_id' => ['$exists' => true]],
-            $options
+            ['created_at' => ['$gt' => $datetime]],
+            ['tailable' => true, 'awaitData' => true]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
