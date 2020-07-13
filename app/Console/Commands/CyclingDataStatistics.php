@@ -10,6 +10,7 @@ use MongoDB\Driver\Query;
 use OSS\OssClient;
 use OSS\Core\OssException;
 use MongoDB\BSON\UTCDateTime;
+use App\Models\CyclingRecords;
 
 
 class CyclingDataStatistics extends Command
@@ -55,18 +56,62 @@ class CyclingDataStatistics extends Command
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
-            ['created_at' => ['$gt' => $datetime]]
+            ['log_id' => ['$exists' => true]]
         );
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
+        try {
+            while (true) {
+                if ($iterator->valid()) {
+                    $document = ($iterator->current());
+                    if($this->str_compare($document->device_info['app_version'],'2.4.0')== '-1'){
+                        $iterator->next();
+                        continue;
+                    }
+                    $log_id = (string)$document->log_id;
+                    $mongo_record_id = (string)$document->_id;
 
-        while (true) {
-            if ($iterator->valid()) {
-                $document = ($iterator->current());
-                dd($document);
+                    //TODO 判断是否已在mysql中
+                    $exist = CyclingRecords::where('mongo_record_id',$mongo_record_id).first();
+                    if($exist){
+                        $iterator->next();
+                        continue;
+                    }
+
+                    $cyclingdata = Cycling::where('log_id',$log_id)->first();
+                    if(empty($cyclingdata)){
+                        $iterator->next();
+                        continue;
+                    }
+
+                    $cyclingId = $cyclingdata->_id;
+                    list($file_size,$file_url) = $this->aliOss($cyclingId);
+
+                    $record = [];
+
+                    $record['mongo_record_id'] = $mongo_record_id;
+                    $record['start_time'] = (int)$cyclingdata->startTime;
+                    $record['finish_time'] = (int)$cyclingdata->finishTime;
+                    $record['total_second'] = (int)$cyclingdata->totalSecond;
+                    $record['total_distance'] = $cyclingdata->totalDistance;
+                    $record['total_calories'] = $cyclingdata->totalCalories;
+                    $record['max_speed'] = $cyclingdata->maxSpeed;
+                    $record['avg_speed'] = $cyclingdata->avgSpeed;
+                    $record['avg_moving_speed'] = $cyclingdata->avgMovingSpeed;
+                    $record['file_size'] = $file_size;
+                    $record['file_url'] =$file_url;
+
+                    CyclingRecords::create($record);
+
+                }
+                $iterator->next();
             }
+
+        }catch ($e){
+            print $e->getMessage();
         }
+
 
 
 
@@ -74,5 +119,37 @@ class CyclingDataStatistics extends Command
 //        //$data = UserBehavior::first();
 //        dd($count);
 
+    }
+
+
+    private function str_compare($str1, $str2)
+    {
+        $arr1 = explode('.', $str1);
+        $arr2 = explode('.', $str2);
+        for ($i = 0; $i < count($arr1); $i++) {
+            if ($arr1[$i] > $arr2[$i]) {
+                return 1;
+            } elseif ($arr1[$i] < $arr2[$i]) {
+                return -1;
+            }
+        }
+        return 0;
+    }
+
+    private function aliOss($cyclingId){
+        $accessKeyId  =  env('ALIYUN_ACCESS_KEY_ID');
+        $accessKeySecret  = env('ALIYUN_ACCESS_KEY_SECRET');
+        $endpoint  = env('ALIYUN_END_POINT');
+        $bucket = env('ALIYUN_BUCKET');
+
+        try {
+            $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
+            $object = "cyclingData/".$cyclingId;
+            $objectMeta = $ossClient->getObjectMeta($this->bucket, $object);
+            retrun [$objectMeta['content-length'],$objectMeta['info']['url']];
+            //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
+        } catch (OssException $e) {
+            print $e->getMessage();
+        }
     }
 }
