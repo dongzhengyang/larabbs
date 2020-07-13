@@ -148,10 +148,11 @@ class CyclingDataStatistics extends Command
             $objectMeta = $ossClient->getObjectMeta($this->bucket, $object);
             $size = $objectMeta['content-length'];
             $url = $objectMeta['info']['url'];
-            retrun [$size,$url];
             //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
         } catch (OssException $e) {
             print $e->getMessage();
         }
+
+        retrun [$size,$url];
     }
 }
