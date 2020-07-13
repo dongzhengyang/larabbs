@@ -62,14 +62,15 @@ class CyclingDataStatistics extends Command
             ['log_id' => ['$exists' => true]],
             $options
         );
-
+        $num = 0;
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while (true) {
+            while ($num>3000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
+                    $this->info((string)$document->_id."==".$num);
                     if(!isset($document->device_info) || empty($document->device_info)){
                         $iterator->next();
                         continue;
@@ -91,6 +92,7 @@ class CyclingDataStatistics extends Command
                     $cyclingdata = Cycling::where('log_id',$log_id)->first();
                     if(empty($cyclingdata)){
                         $iterator->next();
+                        $num ++;
                         continue;
                     }
 
@@ -112,6 +114,7 @@ class CyclingDataStatistics extends Command
                     $record['file_url'] =$file_url;
 
                     CyclingRecords::create($record);
+                    $num ++;
 
                 }
                 $iterator->next();
