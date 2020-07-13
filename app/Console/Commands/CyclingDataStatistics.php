@@ -67,7 +67,7 @@ class CyclingDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while ($num>3000) {
+            while ($num<=3000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
                     $this->info((string)$document->_id."==".$num);
