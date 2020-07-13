@@ -7,6 +7,7 @@ use App\Models\Mongo\UserBehavior;
 use App\Models\Mongo\Cycling;
 use OSS\OssClient;
 use OSS\Core\OssException;
+use MongoDB\BSON\UTCDateTime;
 
 
 class CyclingDataStatistics extends Command
@@ -42,9 +43,10 @@ class CyclingDataStatistics extends Command
      */
     public function handle()
     {
-        //$count =  UserBehavior::where('created_at','>','1585670400')->count();
-        $data = UserBehavior::where('created_at','>','1585670400')->orderBy('created_at','desc')->first();
-        dd($data);
+        $datetime = (new UTCDateTime(1585670400*1000)->toDateTime();
+        $count =  UserBehavior::where('created_at','>=',$datetime)->count();
+        //$data = UserBehavior::first();
+        dd($count);
 
     }
 }
