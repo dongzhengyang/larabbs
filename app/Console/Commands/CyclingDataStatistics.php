@@ -153,6 +153,6 @@ class CyclingDataStatistics extends Command
             print $e->getMessage();
         }
 
-        retrun [$size,$url];
+        return [$size,$url];
     }
 }
