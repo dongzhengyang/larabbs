@@ -14,12 +14,25 @@ use App\Models\Link;
 
 use App\Models\UserData;
 use App\Jobs\UpdateMileageSort;
+use App\Models\Mongo\Activity;
+use OSS\OssClient;
+use OSS\Core\OssException;
 
 class TopicsController extends Controller
-{
+{   
+    protected $accessKeyId;     //您从OSS获得的AccessKeyId
+    protected $accessKeySecret; //您从OSS获得的AccessKeySecret
+    protected $endpoint;        //您选定的OSS数据中心访问域名，例如http://oss-cn-hangzhou.aliyuncs.com>
+    protected $bucket;          //您使用的存储空间名称，注意命名规范
+    protected $ossClient;
+
     public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+    {   
+	    $this->middleware('auth', ['except' => ['index', 'show']]);
+	    $this->accessKeyId  =  env('ALIYUN_ACCESS_KEY_ID');
+            $this->accessKeySecret  = env('ALIYUN_ACCESS_KEY_SECRET');
+    	    $this->endpoint  = env('ALIYUN_END_POINT');
+            $this->bucket = env('ALIYUN_BUCKET');
     }
 
     public function index(Request $request, Topic $topic)
@@ -34,7 +47,22 @@ class TopicsController extends Controller
 //            
 //        }
         
-        
+       //$aa = Activity::latest()->first();
+//	print_r($aa);
+
+	   
+
+           try {
+		   $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+		   $object = "cyclingData/58a66322f8cdca21f735b491";
+		   $objectMeta = $ossClient->getObjectMeta($this->bucket, $object);
+		   //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
+} catch (OssException $e) {
+	print $e->getMessage();
+}
+
+//dd($ossClient);
+
             $topics = $topic->withOrder($request->order)
                     ->with('user', 'category')
                     ->paginate(20);
