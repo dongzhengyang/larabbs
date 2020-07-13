@@ -42,9 +42,9 @@ class CyclingDataStatistics extends Command
      */
     public function handle()
     {
-        $count =  UserBehavior::where('created_at','>','1585670400')->count();
+        //$count =  UserBehavior::where('created_at','>','1585670400')->count();
         $data = UserBehavior::where('created_at','>','1585670400')->order('created_at',-1)->first();
-        dd($count,$data);
+        dd($data);
 
     }
 }
