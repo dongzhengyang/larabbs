@@ -26,6 +26,21 @@ class CreateCyclingRecordsTable extends Migration
             $table->string('avg_moving_speed',20)->default(0.00)->comment('平均移动速度');
             $table->string('file_size',20)->default(0.00)->comment('flatbuffer文件大小 byte');
             $table->string('file_url',150)->default('')->comment('文件地址');
+            $table->string('app_version',10)->default('')->comment('app 版本');
+            $table->string('os_version',10)->default('')->comment('系统 版本');
+            $table->string('phone_brand',20)->default('')->comment('手机品牌');
+            $table->string('sportDuration',20)->default('')->comment('');
+            $table->string('sportDistance',30)->default('')->comment('');
+            $table->string('autoPauseDuration',20)->default('')->comment('');
+            $table->string('invalidDurationByDrift',20)->default('')->comment('');
+            $table->string('invalidDistanceByDrift',20)->default('')->comment('');
+            $table->string('invalidAutoPauseDistanceByDrift',20)->default('')->comment('');
+            $table->string('dozeDuration',20)->default('')->comment('');
+            $table->string('invalidDurationByHighSpeed',20)->default('')->comment('');
+            $table->string('invalidDistanceByHighSpeed',20)->default('')->comment('');
+            $table->string('manualPauseDistance',20)->default('')->comment('');
+            $table->string('autoPauseDistance',20)->default('')->comment('');
+            $table->string('sportType',20)->default('')->comment('');
             $table->timestamps();
         });
     }

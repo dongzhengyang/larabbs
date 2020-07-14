@@ -62,7 +62,7 @@ class CyclingDataStatistics extends Command
         $query = new Query(
   //          ['created_at' => ['$gt' => $datetime]],
             ['log_id' => ['$exists'=>true]],
-            ['noCursorTimeout'=>true]
+            ['noCursorTimeout'=>true,'sort' => ['$natural' => -1]]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.user_behavior', $query);
@@ -104,6 +104,11 @@ class CyclingDataStatistics extends Command
                     $cyclingId = $cyclingdata->_id;
                     list($file_size,$file_url) = $this->aliOss($cyclingId);
 
+                    if(empty($file_url)){
+                        $iterator->next();
+                        continue;
+                    }
+
                     $record = [];
 
                     $record['mongo_record_id'] = $mongo_record_id;
@@ -117,6 +122,24 @@ class CyclingDataStatistics extends Command
                     $record['avg_moving_speed'] = $cyclingdata->avgMovingSpeed;
                     $record['file_size'] = $file_size;
                     $record['file_url'] = (string)$cyclingdata->_id;
+
+                    $record['app_version'] = (string)$document->device_info->app_version;
+                    $record['os_version'] = (string)$document->device_info->os_version;
+                    $record['phone_brand'] = (string)$document->device_info->phone_brand;
+
+                    $record['sportDuration'] = (string)$cyclingdata->app_calculated_data->sportDuration;
+                    $record['sportDistance'] = (string)$cyclingdata->app_calculated_data->sportDistance;
+
+                    $record['autoPauseDuration'] = (string)$cyclingdata->app_calculated_data->autoPauseDuration;
+                    $record['invalidDurationByDrift'] = (string)$cyclingdata->app_calculated_data->invalidDurationByDrift;
+                    $record['invalidDistanceByDrift'] = (string)$cyclingdata->app_calculated_data->invalidDistanceByDrift;
+                    $record['invalidAutoPauseDistanceByDrift'] = (string)$cyclingdata->app_calculated_data->invalidAutoPauseDistanceByDrift;
+                    $record['invalidDurationByHighSpeed'] = (string)$cyclingdata->app_calculated_data->invalidDurationByHighSpeed;
+                    $record['invalidDistanceByHighSpeed'] = (string)$cyclingdata->app_calculated_data->invalidDistanceByHighSpeed;
+                    $record['manualPauseDistance'] = (string)$cyclingdata->app_calculated_data->manualPauseDistance;
+                    $record['autoPauseDistance'] = (string)$cyclingdata->app_calculated_data->autoPauseDistance;
+                    $record['sportType'] = (string)$cyclingdata->app_calculated_data->sportType;
+
 
                     CyclingRecords::create($record);
                     $num ++;
@@ -158,6 +181,8 @@ class CyclingDataStatistics extends Command
         $accessKeySecret  = env('ALIYUN_ACCESS_KEY_SECRET');
         $endpoint  = env('ALIYUN_END_POINT');
         $bucket = env('ALIYUN_BUCKET');
+        $size = 0;
+        $url = '';
         try {
             $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
             $object = "cyclingData/".$cyclingId;
@@ -166,7 +191,7 @@ class CyclingDataStatistics extends Command
             $url = $objectMeta['info']['url'];
             //dd($objectMeta,$objectMeta['content-length']/1024,$objectMeta['info']['url']);
         } catch (OssException $e) {
-            print $e->getMessage();
+            //print $e->getMessage();
         }
 
         return [$size,$url];
