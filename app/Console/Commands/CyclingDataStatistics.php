@@ -127,7 +127,7 @@ class CyclingDataStatistics extends Command
 
                     $record['app_version'] = (string)$document->device_info->app_version;
                     $record['os_version'] = (string)$document->device_info->os_version;
-                    $record['phone_brand'] = (string)$document->device_info->phone_brand;
+                    $record['phone_brand'] = isset($document->device_info->phone_brand)?$document->device_info->phone_brand:'';
 
                     $record['sportDuration'] = (string)$cyclingdata->app_calculated_data['sportDuration'];
                     $record['sportDistance'] = (string)$cyclingdata->app_calculated_data['sportDistance'];
