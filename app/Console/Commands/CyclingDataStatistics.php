@@ -101,6 +101,11 @@ class CyclingDataStatistics extends Command
                         continue;
                     }
 
+                    if(!isset($cyclingdata->app_calculated_data) || empty($cyclingdata->app_calculated_data)){
+                        $iterator->next();
+                        continue;
+                    }
+
                     $cyclingId = $cyclingdata->_id;
                     list($file_size,$file_url) = $this->aliOss($cyclingId);
 
