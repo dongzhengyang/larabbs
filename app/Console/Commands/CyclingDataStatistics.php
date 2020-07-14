@@ -109,6 +109,8 @@ class CyclingDataStatistics extends Command
                         continue;
                     }
 
+
+
                     $record = [];
 
                     $record['mongo_record_id'] = $mongo_record_id;
@@ -127,18 +129,18 @@ class CyclingDataStatistics extends Command
                     $record['os_version'] = (string)$document->device_info->os_version;
                     $record['phone_brand'] = (string)$document->device_info->phone_brand;
 
-                    $record['sportDuration'] = (string)$cyclingdata->app_calculated_data->sportDuration;
-                    $record['sportDistance'] = (string)$cyclingdata->app_calculated_data->sportDistance;
+                    $record['sportDuration'] = (string)$cyclingdata->app_calculated_data['sportDuration'];
+                    $record['sportDistance'] = (string)$cyclingdata->app_calculated_data['sportDistance'];
 
-                    $record['autoPauseDuration'] = (string)$cyclingdata->app_calculated_data->autoPauseDuration;
-                    $record['invalidDurationByDrift'] = (string)$cyclingdata->app_calculated_data->invalidDurationByDrift;
-                    $record['invalidDistanceByDrift'] = (string)$cyclingdata->app_calculated_data->invalidDistanceByDrift;
-                    $record['invalidAutoPauseDistanceByDrift'] = (string)$cyclingdata->app_calculated_data->invalidAutoPauseDistanceByDrift;
-                    $record['invalidDurationByHighSpeed'] = (string)$cyclingdata->app_calculated_data->invalidDurationByHighSpeed;
-                    $record['invalidDistanceByHighSpeed'] = (string)$cyclingdata->app_calculated_data->invalidDistanceByHighSpeed;
-                    $record['manualPauseDistance'] = (string)$cyclingdata->app_calculated_data->manualPauseDistance;
-                    $record['autoPauseDistance'] = (string)$cyclingdata->app_calculated_data->autoPauseDistance;
-                    $record['sportType'] = (string)$cyclingdata->app_calculated_data->sportType;
+                    $record['autoPauseDuration'] = (string)$cyclingdata->app_calculated_data['autoPauseDuration'];
+                    $record['invalidDurationByDrift'] = (string)$cyclingdata->app_calculated_data['invalidDurationByDrift'];
+                    $record['invalidDistanceByDrift'] = (string)$cyclingdata->app_calculated_data['invalidDistanceByDrift'];
+                    $record['invalidAutoPauseDistanceByDrift'] = (string)$cyclingdata->app_calculated_data['invalidAutoPauseDistanceByDrift'];
+                    $record['invalidDurationByHighSpeed'] = (string)$cyclingdata->app_calculated_data['invalidDurationByHighSpeed'];
+                    $record['invalidDistanceByHighSpeed'] = (string)$cyclingdata->app_calculated_data['invalidDistanceByHighSpeed'];
+                    $record['manualPauseDistance'] = (string)$cyclingdata->app_calculated_data['manualPauseDistance'];
+                    $record['autoPauseDistance'] = (string)$cyclingdata->app_calculated_data['autoPauseDistance'];
+                    $record['sportType'] = (string)$cyclingdata->app_calculated_data['sportType'];
 
 
                     CyclingRecords::create($record);
