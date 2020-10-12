@@ -68,89 +68,14 @@ class ActivityDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
+            while ($num<=30000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
-                    echo date("Y-m-d H:i:s",$document->time_beg)."\r\n";
-//                    $this->info((string)$document->_id."==".$num);
-//                    if(!isset($document->device_info) || empty($document->device_info)){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//                    if(!isset($document->device_info->app_version)){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//                    if($this->str_compare((string)$document->device_info->app_version,'2.4.0')== '-1'){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//                    $log_id = (string)$document->log_id;
-//                    $mongo_record_id = (string)$document->_id;
-//
-//                    //TODO 判断是否已在mysql中
-//                    $exist = CyclingRecords::where('mongo_record_id',$mongo_record_id)->first();
-//                    if($exist){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//
-//                    $cyclingdata = Cycling::where('log_id',$log_id)->first();
-//                    if(empty($cyclingdata)){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//
-//                    if(!isset($cyclingdata->app_calculated_data) || empty($cyclingdata->app_calculated_data)){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//
-//                    $cyclingId = $cyclingdata->_id;
-//                    list($file_size,$file_url) = $this->aliOss($cyclingId);
-//
-//                    if(empty($file_url)){
-//                        $iterator->next();
-//                        continue;
-//                    }
-//
-//
-//
-//                    $record = [];
-//
-//                    $record['mongo_record_id'] = $mongo_record_id;
-//                    $record['start_time'] = (int)$cyclingdata->startTime;
-//                    $record['finish_time'] = (int)$cyclingdata->finishTime;
-//                    $record['total_second'] = (int)$cyclingdata->totalSecond;
-//                    $record['total_distance'] = $cyclingdata->totalDistance;
-//                    $record['total_calories'] = $cyclingdata->totalCalories;
-//                    $record['max_speed'] = $cyclingdata->maxSpeed;
-//                    $record['avg_speed'] = $cyclingdata->avgSpeed;
-//                    $record['avg_moving_speed'] = $cyclingdata->avgMovingSpeed;
-//                    $record['file_size'] = $file_size;
-//                    $record['file_url'] = (string)$cyclingdata->_id;
-//
-//                    $record['app_version'] = (string)$document->device_info->app_version;
-//                    $record['os_version'] = (string)$document->device_info->os_version;
-//                    $record['phone_brand'] = isset($document->device_info->phone_brand)?$document->device_info->phone_brand:'';
-//
-//                    $record['sportDuration'] = (string)$cyclingdata->app_calculated_data['sportDuration'];
-//                    $record['sportDistance'] = (string)$cyclingdata->app_calculated_data['sportDistance'];
-//
-//                    $record['autoPauseDuration'] = (string)$cyclingdata->app_calculated_data['autoPauseDuration'];
-//                    $record['invalidDurationByDrift'] = (string)$cyclingdata->app_calculated_data['invalidDurationByDrift'];
-//                    $record['invalidDistanceByDrift'] = (string)$cyclingdata->app_calculated_data['invalidDistanceByDrift'];
-//                    $record['invalidAutoPauseDistanceByDrift'] = (string)$cyclingdata->app_calculated_data['invalidAutoPauseDistanceByDrift'];
-//                    $record['invalidDurationByHighSpeed'] = (string)$cyclingdata->app_calculated_data['invalidDurationByHighSpeed'];
-//                    $record['invalidDistanceByHighSpeed'] = (string)$cyclingdata->app_calculated_data['invalidDistanceByHighSpeed'];
-//                    $record['manualPauseDistance'] = (string)$cyclingdata->app_calculated_data['manualPauseDistance'];
-//                    $record['autoPauseDistance'] = (string)$cyclingdata->app_calculated_data['autoPauseDistance'];
-//                    $record['sportType'] = (string)$cyclingdata->app_calculated_data['sportType'];
-//
-//
-//                    CyclingRecords::create($record);
+                    echo date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
 
                 }
-                $iterator->next();
+            }
+            $iterator->next();
 
         }catch(\Exception $e){
             print $e->getMessage();
