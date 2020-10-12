@@ -48,6 +48,11 @@ class ActivityDataStatistics extends Command
      */
     public function handle()
     {
+
+        mongoActivity::where()
+
+
+
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
         $begintime = 1585670400;
@@ -60,8 +65,8 @@ class ActivityDataStatistics extends Command
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
-            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]]
-  //          ['noCursorTimeout'=>true,'sort' => ['$natural' => 1]]
+            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]],
+            ['noCursorTimeout'=>true,'sort' => ['$natural' => -1]]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.activities', $query);
@@ -71,7 +76,7 @@ class ActivityDataStatistics extends Command
             while ($num<=3000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
-                    dd($document);
+                    print($document->toArray());
 //                    $this->info((string)$document->_id."==".$num);
 //                    if(!isset($document->device_info) || empty($document->device_info)){
 //                        $iterator->next();
