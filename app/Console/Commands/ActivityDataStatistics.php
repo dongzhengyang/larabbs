@@ -68,10 +68,9 @@ class ActivityDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while ($num<=3000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
-                    print($document->toArray());
+                    echo date("Y-m-d H:i:s",$document->time_beg)."\r\n";
 //                    $this->info((string)$document->_id."==".$num);
 //                    if(!isset($document->device_info) || empty($document->device_info)){
 //                        $iterator->next();
@@ -149,11 +148,9 @@ class ActivityDataStatistics extends Command
 //
 //
 //                    CyclingRecords::create($record);
-                    $num ++;
 
                 }
                 $iterator->next();
-            }
 
         }catch(\Exception $e){
             print $e->getMessage();
