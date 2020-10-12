@@ -25,7 +25,6 @@ class CreateActivityParticipantsTable extends Migration
             $table->timestamp('update_time')->nullable()->comment('mongo 更新时间');
             $table->timestamps();
             $table->index(['activity_id', 'dline_user_id'],'index_activity_dline_user');
-            $table->timestamps();
         });
     }
 
