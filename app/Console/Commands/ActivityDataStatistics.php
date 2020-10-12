@@ -48,11 +48,6 @@ class ActivityDataStatistics extends Command
      */
     public function handle()
     {
-
-        mongoActivity::where()
-
-
-
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
         $begintime = 1585670400;
