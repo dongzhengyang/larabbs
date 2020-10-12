@@ -61,7 +61,7 @@ class ActivityDataStatistics extends Command
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
             ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]],
-            ['noCursorTimeout'=>true,'sort' => ['$natural' => 1]]
+  //          ['noCursorTimeout'=>true,'sort' => ['$natural' => 1]]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.activities', $query);
