@@ -57,7 +57,7 @@ class ActivityDataStatistics extends Command
 
         $begintime = 1585670400;
         $endtime = 1602431999;
-        $activityList = mongoActivity::where(['time_beg' => ['$gte' => $begintime], 'time_beg' => ['$lt' => $endtime], 'id' => '5ea64757e86a9a305c060c02'])->get()->toArray();
+        $activityList = mongoActivity::where(['time_beg' => ['$gte' => $begintime], 'time_beg' => ['$lt' => $endtime]])->get()->toArray();
         foreach ($activityList as $item) {
             $data = [];
             $participantCount = count($item['participants']);
@@ -96,6 +96,10 @@ class ActivityDataStatistics extends Command
                             }
                             if (isset($value1['light']) && $value1['light']) {
                                 $light_topic = 1;
+                            }
+
+                            if($light_activity && $light_topic){
+                                break;
                             }
                         }
                      }
