@@ -69,17 +69,17 @@ class ActivityDataStatistics extends Command
                 'part_count' => $participantCount,
                 'mongo_activity_id' =>(string)$item['_id'],
                 'status' => 1,
-                'create_time' => (new UTCDateTime($item['created_at']))->toDateTime(),
-                'update_time' => (new UTCDateTime($item['updated_at']))->toDateTime(),
+                //'create_time' => (new UTCDateTime($item['created_at']))->toDateTime(),
+                //'update_time' => (new UTCDateTime($item['updated_at']))->toDateTime(),
             ];
-
+            $medalIds = [];
             $medals = Medal::where('act_id',new ObjectId($item['_id']))->get()->toArray();
             if($medals){
                 foreach ($medals as $k=>$medal){
                     array_push($medalIds,$medal['id']);
                 }
             }
-dd($medals,$medalIds);
+dd($medals,$medalIds,$item['created_at']);
 
             $activity = ActivitySQL::create($data);
             if($participantCount>0 && $activity){
@@ -110,7 +110,7 @@ dd($medals,$medalIds);
                         'created_at' => (new UTCDateTime(time() * 1000))->toDateTime(),
                         'updated_at' => (new UTCDateTime(time() * 1000))->toDateTime()
                     ];
-                    ActivityParticipant::create($addData)
+                    ActivityParticipant::create($addData);
                 }
             }
 
