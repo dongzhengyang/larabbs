@@ -88,10 +88,9 @@ class ActivityDataStatistics extends Command
                     $light_activity = 0;
                     $light_topic = 0;
                     $user = User::where('user_id', $value['user_id'])->first();
-
                     if ($medalIds && $user) {
-                        $lights = UserMedal::where("user_id", $user->id)->whereIn('medal_id', $medalIds)->get()->toArray();
-                        if ($lights as $key1=>$value1){
+                        $lights = UserMedal::where("user_id", $user->id)->whereIn('medal_id',$medalIds)->get()->toArray();
+                        foreach($lights as $key1=>$value1){
                             if (count($value1['records']) > 0) {
                                 $light_activity = 1;
                             }
@@ -99,7 +98,7 @@ class ActivityDataStatistics extends Command
                                 $light_topic = 1;
                             }
                         }
-                        }
+                     }
                     $addData = [
                         'activity_id' => $activity->id,
                         'activity_number' => $activity->activity_number,
