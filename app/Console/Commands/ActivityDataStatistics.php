@@ -8,8 +8,8 @@ use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
 use OSS\OssClient;
 use OSS\Core\OssException;
-use MongoDB\BSON\UTCDateTime;
 use Carbon\Carbon;
+use MongoDB\BSON\UTCDateTime;
 use App\Models\Mongo\Activity as mongoActivity;
 use App\Models\Activity as ActivitySQL;
 use App\Models\ActivityParticipant;
@@ -87,8 +87,8 @@ class ActivityDataStatistics extends Command
                         'participant_count' => $participantCount,
                         'mongo_activity_id' =>(string)$document->_id,
                         'status' => 1,
-                        'create_time' => (new UTCDateTime($document->created_at))->toDateTime(),
-                        'update_time' => (new UTCDateTime($document->updated_at))->toDateTime(),
+                        'create_time' => $document->created_at,
+                        'update_time' => $document->updated_at,
                     ];
                     print_r($data);
                     print_r($document->participants);
