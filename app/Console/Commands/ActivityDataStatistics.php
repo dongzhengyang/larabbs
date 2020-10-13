@@ -60,7 +60,7 @@ class ActivityDataStatistics extends Command
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
-            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>"5cb5867fe86a9a159e244d7d"],
+            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>"5e49fbbee86a9a28ac404f7c"],
             ['sort' => ['_id' => 1]]
         );
         $num = 0;
@@ -87,8 +87,8 @@ class ActivityDataStatistics extends Command
                         'participant_count' => $participantCount,
                         'mongo_activity_id' =>(string)$document->_id,
                         'status' => 1,
-                        'create_time' => $document->created_at,
-                        'update_time' => $document->updated_at,
+                        'create_time' => $document->created_at->toDateTime(),
+                        'update_time' => $document->updated_at->toDateTime(),
                     ];
                     print_r($data);
                     print_r($document->participants);
