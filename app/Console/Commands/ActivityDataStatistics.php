@@ -82,8 +82,8 @@ class ActivityDataStatistics extends Command
                     $data = [
                         'activity_number' => $no,
                         'name' => (string)$document->name,
-                        'time_begin' => (new UTCDateTime($document->time_beg*1000))->toDateTime(),
-                        'time_end' => (new UTCDateTime($document->time_end*1000))->toDateTime(),
+                        'time_begin' => $document->time_beg,
+                        'time_end' => $document->time_end,
                         'participant_count' => $participantCount,
                         'mongo_activity_id' =>(string)$document->_id,
                         'status' => 1,
