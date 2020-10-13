@@ -68,7 +68,7 @@ class ActivityDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while ($num<=3000) {
+            while ($num<=10000) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
                     if(strlen($document->time_beg)>10){
