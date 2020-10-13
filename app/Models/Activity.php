@@ -1,12 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Traits\ActivityHelper;
-use App\ActivityParticipant;
-use App\Medal;
+use App\Models\ActivityParticipant;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

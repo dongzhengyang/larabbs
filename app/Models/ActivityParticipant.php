@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Activity;
+use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
