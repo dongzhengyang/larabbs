@@ -62,7 +62,7 @@ class ActivityDataStatistics extends Command
 
             $isexist = ActivitySQL::where('mongo_activity_id',(string)$item['_id'])->first();
             if($isexist){
-                continue();
+                continue;
             }
 
             $data = [];
