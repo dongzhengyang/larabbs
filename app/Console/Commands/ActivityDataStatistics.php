@@ -101,7 +101,7 @@ class ActivityDataStatistics extends Command
                     if ($medalIds && $user) {
                         $lights = UserMedal::where("user_id", $user->id)->whereIn('medal_id',$medalIds)->get()->toArray();
                         foreach($lights as $key1=>$value1){
-                            if (count($value1['records']) > 0) {
+                            if (isset($value1['records']) && count($value1['records']) > 0) {
                                 $light_activity = 1;
                             }
                             if (isset($value1['light']) && $value1['light']) {
