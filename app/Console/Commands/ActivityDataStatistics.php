@@ -57,8 +57,12 @@ class ActivityDataStatistics extends Command
 
         $begintime = 1585670400;
         $endtime = 1602431999;
-        $activityList = mongoActivity::where(['time_beg' => ['$gte' => $begintime], 'time_beg' => ['$lt' => $endtime]])->get()->toArray();
+        $activityList = mongoActivity::where(['time_beg' => ['$gte' => $begintime]])->get()->toArray();
         foreach ($activityList as $item) {
+
+            if(strlen($item['time_beg'])>10){
+                continue;
+            }
 
             $isexist = ActivitySQL::where('mongo_activity_id',(string)$item['_id'])->first();
             if($isexist){
