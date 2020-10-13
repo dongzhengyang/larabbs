@@ -87,8 +87,8 @@ class ActivityDataStatistics extends Command
                         'participant_count' => $participantCount,
                         'mongo_activity_id' =>(string)$document->_id,
                         'status' => 1,
-                        'create_time' => $document->created_at->toDateTime(),
-                        'update_time' => $document->updated_at->toDateTime(),
+                        'create_time' => (string)$document->created_at->toDateTime(),
+                        'update_time' => (string)$document->updated_at->toDateTime(),
                     ];
 //                    print_r($data);
 //                    print_r($document->participants);
