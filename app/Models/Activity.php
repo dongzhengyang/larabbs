@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\ActivityParticipant;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    use SoftDeletes;
     
     protected $table = 'activity';
     
