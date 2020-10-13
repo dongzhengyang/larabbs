@@ -59,6 +59,12 @@ class ActivityDataStatistics extends Command
         $endtime = 1602431999;
         $activityList = mongoActivity::where(['time_beg' => ['$gte' => $begintime], 'time_beg' => ['$lt' => $endtime]])->get()->toArray();
         foreach ($activityList as $item) {
+
+            $isexist = ActivitySQL::where('mongo_activity_id',(string)$item['_id'])->first();
+            if($isexist){
+                continue();
+            }
+
             $data = [];
             $participantCount = count($item['participants']);
             $no = str_pad($item['no'], 11, "0", STR_PAD_LEFT);
@@ -109,8 +115,8 @@ class ActivityDataStatistics extends Command
                         'dline_user_id' => (int)$value['user_id'],
                         'light_activity' => $light_activity,
                         'light_topic' => $light_topic,
-                        'create_time' => isset($value['created_at']) ? (new UTCDateTime($value['created_at'] * 1000))->toDateTime() : null,
-                        'update_time' => isset($value['updated_at']) ? (new UTCDateTime($value['updated_at'] * 1000))->toDateTime() : null,
+    //                    'create_time' => isset($value['created_at']) ? (new UTCDateTime($value['created_at'] * 1000))->toDateTime() : null,
+    //                    'update_time' => isset($value['updated_at']) ? (new UTCDateTime($value['updated_at'] * 1000))->toDateTime() : null,
                         'created_at' => (new UTCDateTime(time() * 1000))->toDateTime(),
                         'updated_at' => (new UTCDateTime(time() * 1000))->toDateTime()
                     ];
