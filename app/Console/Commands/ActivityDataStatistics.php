@@ -61,19 +61,17 @@ class ActivityDataStatistics extends Command
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
             ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]],
-            ['noCursorTimeout'=>true,'sort' => ['$natural' => -1]]
+            ['sort' => ['_id' => 1]]
         );
         $num = 0;
         $cursor = $manager->executeQuery('ridelife.activities', $query);
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while ($num<=30000) {
-                if ($iterator->valid()) {
-                    $document = ($iterator->current());
-                    echo date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
+            if ($iterator->valid()) {
+                $document = ($iterator->current());
+                echo date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
 
-                }
             }
             $iterator->next();
 
