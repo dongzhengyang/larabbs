@@ -70,7 +70,13 @@ class ActivityDataStatistics extends Command
         try {
             if ($iterator->valid()) {
                 $document = ($iterator->current());
-                echo date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
+                if(strlen($document->time_beg)>10){
+                    $time_beg = substr($document->time_beg , 0 , 10);
+                    print_r($time_beg.'=='.date("Y-m-d H:i:s", $time_beg) . "\r\n") ;
+                }else{
+                    print_r( $document->time_beg.'=='.date("Y-m-d H:i:s", $document->time_beg) . "\r\n");
+                }
+
 
             }
             $iterator->next();
