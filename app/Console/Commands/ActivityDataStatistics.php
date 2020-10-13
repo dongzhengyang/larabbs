@@ -60,7 +60,7 @@ class ActivityDataStatistics extends Command
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
-            ['time_beg' => ['$gte' => $begintime]],
+            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]],
             ['sort' => ['_id' => 1]]
         );
         $num = 0;
