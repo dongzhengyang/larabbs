@@ -52,8 +52,8 @@ class ActivityDataStatistics extends Command
 
         $begintime = 1585670400;
         $endtime = 1602431999;
-        $activity = mongoActivity::where(['time_beg'=>['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>"5e49fbbee86a9a28ac404f7c"])->get();
-        dd($activity,"====");
+        $data = mongoActivity::where('id',"5e49fbbee86a9a28ac404f7c")->get();
+        dd($data,"====");
 
 
 
