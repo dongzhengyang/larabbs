@@ -49,8 +49,16 @@ class ActivityDataStatistics extends Command
     {
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
+
         $begintime = 1585670400;
         $endtime = 1602431999;
+        $activity = mongoActivity::where(['time_beg'=>['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>"5e49fbbee86a9a28ac404f7c"])->get();
+        dd($activity,"====");
+
+
+
+
+
         $host = sprintf("mongodb://%s:%s@%s:%s/admin",
             env('MONGO_DB_USERNAME'),
             rawurlencode(env('MONGO_DB_PASSWORD')),
@@ -83,7 +91,7 @@ class ActivityDataStatistics extends Command
                         'name' => (string)$document->name,
                         'time_begin' => $document->time_beg,
                         'time_end' => $document->time_end,
-                        'participant_count' => $participantCount,
+                        'part_count' => $participantCount,
                         'mongo_activity_id' =>(string)$document->_id,
                         'status' => 1,
                         'create_time' => (new UTCDateTime((string)$document->created_at))->toDateTime(),
