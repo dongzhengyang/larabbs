@@ -11,8 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
-{    
-    use ActivityHelper;
+{
     use SoftDeletes;
     
     protected $table = 'activity';
@@ -34,12 +33,7 @@ class Activity extends Model
     {
         return $this->hasMany(ActivityParticipant::class,'activity_id','id');
     }
-    
-    public function medals() : HasMany
-    {
-        return $this->hasMany(Medal::class,'activity_id','id');
-    }
-    
+
     public function getCreateTimeAttribute($value)
     {
         return Carbon::parse($value)->setTimezone(request()->cookie('timezone'))->format('Y.m.d H:i:s');
