@@ -11,7 +11,7 @@ use OSS\Core\OssException;
 use MongoDB\BSON\UTCDateTime;
 use Carbon\Carbon;
 use App\Models\Mongo\Activity as mongoActivity;
-use App\Models\Activity;
+use App\Models\Activity as ActivitySQL;
 use App\Models\ActivityParticipant;
 
 
@@ -60,7 +60,7 @@ class ActivityDataStatistics extends Command
 
         $manager = new Manager($host, ['socketTimeoutMS' => 900000]);
         $query = new Query(
-            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime]],
+            ['time_beg' => ['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>"5cb5867fe86a9a159e244d7d"],
             ['sort' => ['_id' => 1]]
         );
         $num = 0;
@@ -68,14 +68,35 @@ class ActivityDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            while ($num<=10000) {
+            while ($num<=5911) {
                 if ($iterator->valid()) {
                     $document = ($iterator->current());
                     if(strlen($document->time_beg)>10){
                         $iterator->next();
                         continue;
                     }
-                    echo $document->time_beg.'=='.date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
+
+                    $data = [];
+                    $participantCount = $document->participants->count();
+                    $no = str_pad($document->no,11,"0",STR_PAD_LEFT);
+                    $data = [
+                        'activity_number' => $no,
+                        'name' => (string)$document->name,
+                        'time_begin' => (new UTCDateTime($document->time_beg*1000))->toDateTime(),
+                        'time_end' => (new UTCDateTime($document->time_end*1000))->toDateTime(),
+                        'participant_count' => $participantCount,
+                        'mongo_activity_id' =>(string)$document->_id,
+                        'status' => 1,
+                        'create_time' => (new UTCDateTime($document->created_at))->toDateTime(),
+                        'update_time' => (new UTCDateTime($document->updated_at))->toDateTime(),
+                    ];
+                    print_r($data);
+                    //$activity = ActivitySQL::create($data);
+
+
+
+
+                    //echo $document->time_beg.'=='.date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
                     $num ++;
                 }
                 $iterator->next();
