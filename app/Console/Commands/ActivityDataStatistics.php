@@ -90,9 +90,9 @@ class ActivityDataStatistics extends Command
                         'create_time' => $document->created_at->toDateTime(),
                         'update_time' => $document->updated_at->toDateTime(),
                     ];
-                    print_r($data);
-                    print_r($document->participants);
-                    //$activity = ActivitySQL::create($data);
+//                    print_r($data);
+//                    print_r($document->participants);
+                    $activity = ActivitySQL::create($data);
 
 
 
