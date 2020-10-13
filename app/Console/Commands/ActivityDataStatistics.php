@@ -12,6 +12,9 @@ use MongoDB\BSON\UTCDateTime;
 use App\Models\Mongo\Activity as mongoActivity;
 use App\Models\Activity as ActivitySQL;
 use App\Models\ActivityParticipant;
+use App\Models\Mongo\Medal;
+use App\Models\Mongo\UserMedal;
+use MongoDB\BSON\ObjectId;
 
 
 class ActivityDataStatistics extends Command
@@ -49,11 +52,75 @@ class ActivityDataStatistics extends Command
     {
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
+        //5ea64757e86a9a305c060c02
 
         $begintime = 1585670400;
         $endtime = 1602431999;
-        $data = mongoActivity::where('id',"5e49fbbee86a9a28ac404f7c")->get();
-        dd($data,"====");
+        $activityList = mongoActivity::where(['time_beg'=>['$gte' => $begintime],'time_beg'=>['$lt'=>$endtime],'id'=>'5ea64757e86a9a305c060c02'])->get()->toArray();
+        foreach ($activityList as $item) {
+            $data = [];
+            $participantCount = count($item['participants']);
+            $no = str_pad($item['no'],11,"0",STR_PAD_LEFT);
+            $data = [
+                'activity_number' => $no,
+                'name' => (string)$item['name'],
+                'time_begin' => (new UTCDateTime($item['time_beg']*1000))->toDateTime(),
+                'time_end' => (new UTCDateTime($item['time_end']*1000))->toDateTime(),
+                'part_count' => $participantCount,
+                'mongo_activity_id' =>(string)$item['_id'],
+                'status' => 1,
+                'create_time' => (new UTCDateTime($item['created_at']))->toDateTime(),
+                'update_time' => (new UTCDateTime($item['updated_at']))->toDateTime(),
+            ];
+
+            $medals = Medal::where('act_id',new ObjectId($item['_id']))->get()->toArray();
+            if($medals){
+                foreach ($medals as $k=>$medal){
+                    array_push($medalIds,$medal['id']);
+                }
+            }
+dd($medals,$medalIds);
+
+            $activity = ActivitySQL::create($data);
+            if($participantCount>0 && $activity){
+
+                //TODO 获取活动所对应的勋章
+                $light_activity = 0;
+                $light_topic = 0;
+                $medalIds = [];
+                $medals = Medal::where('act_id',new ObjectId($activity->mongo_activity_id))->get()->toArray();
+                if($medals){
+                    foreach ($medals as $k=>$medal){
+                        array_push($medalIds,$medal['id']);
+                    }
+                }
+
+
+
+                foreach ((array) $item['participants'] as $key => $value) {
+
+                    $addData = [
+                        'activity_id' => $activity->id,
+                        'activity_number' =>  $activity->activity_number,
+                        'dline_user_id' => (int) $value['user_id'],
+                        'light_activity' => $light_activity,
+                        'light_topic' => $light_topic,
+                        'create_time' => isset($value['created_at']) ? (new UTCDateTime($value['created_at'] * 1000))->toDateTime() : null,
+                        'update_time' => isset($value['updated_at']) ? (new UTCDateTime($value['updated_at'] * 1000))->toDateTime() : null,
+                        'created_at' => (new UTCDateTime(time() * 1000))->toDateTime(),
+                        'updated_at' => (new UTCDateTime(time() * 1000))->toDateTime()
+                    ];
+                    ActivityParticipant::create($addData)
+                }
+            }
+
+
+
+
+        }
+
+
+
 
 
 
@@ -116,9 +183,7 @@ class ActivityDataStatistics extends Command
         echo $num."===";
 
 
-//        $count =  UserBehavior::where('created_at','>=',$datetime)->count();
-//        //$data = UserBehavior::first();
-//        dd($count);
+
 
     }
 
