@@ -77,7 +77,7 @@ class ActivityDataStatistics extends Command
                     }
 
                     $data = [];
-                    $participantCount = $document->participants->count();
+                    $participantCount = count($document->participants);
                     $no = str_pad($document->no,11,"0",STR_PAD_LEFT);
                     $data = [
                         'activity_number' => $no,
@@ -91,6 +91,7 @@ class ActivityDataStatistics extends Command
                         'update_time' => (new UTCDateTime($document->updated_at))->toDateTime(),
                     ];
                     print_r($data);
+                    print_r($document->participants);
                     //$activity = ActivitySQL::create($data);
 
 
