@@ -128,7 +128,7 @@ class ActivityDataStatistics extends Command
                 }
             }
 
-
+            sleep(1);
         }
     }
 }
