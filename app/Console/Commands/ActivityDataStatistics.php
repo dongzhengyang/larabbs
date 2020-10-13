@@ -68,19 +68,18 @@ class ActivityDataStatistics extends Command
         $iterator = new \IteratorIterator($cursor);
         $iterator->rewind();
         try {
-            if ($iterator->valid()) {
-                $document = ($iterator->current());
-                if(strlen($document->time_beg)>10){
-                    $time_beg = substr($document->time_beg , 0 , 10);
-                    print_r($time_beg.'=='.date("Y-m-d H:i:s", $time_beg) . "\r\n") ;
-                }else{
-                    print_r( $document->time_beg.'=='.date("Y-m-d H:i:s", $document->time_beg) . "\r\n");
+            while ($num<=3000) {
+                if ($iterator->valid()) {
+                    $document = ($iterator->current());
+                    if(strlen($document->time_beg)>10){
+                        $iterator->next();
+                        continue;
+                    }
+                    echo $document->time_beg.'=='.date("Y-m-d H:i:s", $document->time_beg) . "\r\n";
+                    $num ++;
                 }
-
-
+                $iterator->next();
             }
-            $iterator->next();
-
         }catch(\Exception $e){
             print $e->getMessage();
         }
