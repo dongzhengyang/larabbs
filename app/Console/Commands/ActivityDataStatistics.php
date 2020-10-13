@@ -84,7 +84,7 @@ class ActivityDataStatistics extends Command
             print $e->getMessage();
         }
 
-
+        echo $num."===";
 
 
 //        $count =  UserBehavior::where('created_at','>=',$datetime)->count();
