@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Activity;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use MongoDB\BSON\UTCDateTime;
 
 class ActivityParticipant extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'activity_participants';
 
     protected $dates = ['create_time','update_time'];
