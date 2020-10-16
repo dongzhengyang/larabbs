@@ -69,7 +69,7 @@ class ActivityDataStatistics extends Command
             if($cyclingRecords){
                 $total = 0;
                 foreach ($cyclingRecords as $k=>$v){
-                    $total = $total+$v['totalDistance'];
+                    $total = $total+(float)$v['totalDistance'];
                 }
                 $update['flag'] = 1;
                 $update['total_mil'] = $total;
@@ -84,7 +84,7 @@ class ActivityDataStatistics extends Command
             }
 
         }
-        
+
 
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
