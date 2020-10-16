@@ -16,6 +16,8 @@ use App\Models\Mongo\Medal;
 use App\Models\Mongo\UserMedal;
 use App\Models\Mongo\User;
 use MongoDB\BSON\ObjectId;
+use App\Models\Mongo\Cycling;
+use App\Models\KsUser;
 
 
 class ActivityDataStatistics extends Command
@@ -51,20 +53,53 @@ class ActivityDataStatistics extends Command
      */
     public function handle()
     {
+        $begintime = 1598889600;//2020/09/01
+        $userList = KsUser::where("flag",0)->get()->toArray();
+        foreach ($userList as $key=>$user){
+            $update = [];
+            $mongoUser = User::where('user_id',$user['user_id'])->first();
+            if(empty($mongoUser)){
+                $update['flag'] = 2;
+                $update['total_mil'] = 0;
+                KsUser::where('id',$user['id'])->update($update);
+                continue;
+            }
+
+            $cyclingRecords = Cycling::where('user_id',(string)$mongoUser->_id)->where(['startTime'=>['$gte' => $begintime]])->get()->toArray();
+            if($cyclingRecords){
+                $total = 0;
+                foreach ($cyclingRecords as $k=>$v){
+                    $total = $total+$v['totalDistance'];
+                }
+                $update['flag'] = 1;
+                $update['total_mil'] = $total;
+                KsUser::where('id',$user['id'])->update($update);
+                continue;
+
+            }else{
+                $update['flag'] = 1;
+                $update['total_mil'] = 0;
+                KsUser::where('id',$user['id'])->update($update);
+                continue;
+            }
+
+        }
+        
+
         //$begintime = new UTCDateTime(1585670400*1000);
         //$endtime = new UTCDateTime(1602431999*1000);
         //5ea64757e86a9a305c060c02
-        $list = ActivitySQL::all()->toArray();
-
-        foreach ($list as $key => $activity){
-            $updateData = [];
-            $light_activity_num =  ActivityParticipant::where(['activity_id'=>$activity['id'],'light_activity'=>1])->count();
-            $light_topic_num =  ActivityParticipant::where(['activity_id'=>$activity['id'],'light_topic'=>1])->count();
-            $updateData['activity_count'] = $light_activity_num;
-            $updateData['topic_count'] = $light_topic_num;
-            ActivitySQL::where('id',$activity['id'])->update($updateData);
-            echo  $activity['id']."\r\n";
-        }
+//        $list = ActivitySQL::all()->toArray();
+//
+//        foreach ($list as $key => $activity){
+//            $updateData = [];
+//            $light_activity_num =  ActivityParticipant::where(['activity_id'=>$activity['id'],'light_activity'=>1])->count();
+//            $light_topic_num =  ActivityParticipant::where(['activity_id'=>$activity['id'],'light_topic'=>1])->count();
+//            $updateData['activity_count'] = $light_activity_num;
+//            $updateData['topic_count'] = $light_topic_num;
+//            ActivitySQL::where('id',$activity['id'])->update($updateData);
+//            echo  $activity['id']."\r\n";
+//        }
 
 
 
